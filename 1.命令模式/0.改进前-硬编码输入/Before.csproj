@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- 固定 net8.0：装 .NET 8 / 9 / 10 的读者都能直接 dotnet run -->
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>CommandPattern.Step0</RootNamespace>
+    <AssemblyName>Step0-Before</AssemblyName>
+  </PropertyGroup>
+
+</Project>

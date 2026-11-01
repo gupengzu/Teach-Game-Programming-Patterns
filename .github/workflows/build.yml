@@ -1,0 +1,87 @@
+name: 构建示例
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+          - os: ubuntu-latest
+            rid: linux-x64
+          - os: macos-latest
+            rid: osx-arm64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: 发布 self-contained 单文件
+        shell: bash
+        run: |
+          set -e
+          projects=(
+            "1.命令模式/0.改进前-硬编码输入/Before.csproj:chapter1-step0"
+            "1.命令模式/1.命令对象-按键重映射/CommandObject.csproj:chapter1-step1"
+            "1.命令模式/2.给角色的指令-延迟执行/CommandActor.csproj:chapter1-step2"
+            "1.命令模式/3.撤销和重做/UndoRedo.csproj:chapter1-step3"
+          )
+
+          for item in "${projects[@]}"; do
+            proj="${item%%:*}"
+            name="${item##*:}"
+            echo "==> 发布 $proj"
+            dotnet publish "$proj" \
+              -c Release \
+              -r ${{ matrix.rid }} \
+              --self-contained true \
+              -p:PublishSingleFile=true \
+              -p:EnableCompressionInSingleFile=true \
+              -o "dist/${name}-${{ matrix.rid }}"
+          done
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter1-${{ matrix.rid }}
+          path: dist/**
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: 打包为 zip
+        run: |
+          set -e
+          cd dist
+          for d in */; do
+            name="${d%/}"
+            (cd "$d" && zip -qr "../${name}.zip" .)
+          done
+          ls -lh
+
+      - name: 发布到 Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
