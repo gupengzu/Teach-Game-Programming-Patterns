@@ -10,8 +10,8 @@
 
 ## 原书资源
 
-- 中文网页版：<https://gpp.tkchu.me/>
-- 英文网页版：<https://gameprogrammingpatterns.com/>
+- 中文网页版：[https://gpp.tkchu.me/](https://gpp.tkchu.me/)
+- 英文网页版：[https://gameprogrammingpatterns.com/](https://gameprogrammingpatterns.com/)
 
 ## 为什么做这个专栏
 
@@ -25,10 +25,38 @@
 
 本专栏请配合 GitHub 仓库使用：
 
-👉 <https://github.com/gupengzu/Teach-Game-Programming-Patterns>
+[https://github.com/gupengzu/Teach-Game-Programming-Patterns](https://github.com/gupengzu/Teach-Game-Programming-Patterns)
 
-该仓库包含与本专栏相关的全部可运行实例。本项目主要使用 **C#** 编写。
+该仓库包含与本专栏相关的全部可运行实例。本项目主要使用 **C#** 编写（只涉及基本语法，只会C/C++也能无压力读懂）。
+
+## 环境准备与运行方式
+
+以下约定对**每一章**都适用：配好一次，后面直接复用。
+
+### 需要什么
+
+- 方式一：本机安装 **.NET SDK 8 或更高**（用 `dotnet --version` 自查）
+- 方式二：什么都不装，到仓库的 **Releases** 页面下载对应平台（Windows / Linux / macOS）的压缩包，解压后直接运行
+
+> Unity 用户注意：Unity 自带的是 Mono / .NET 运行时，并不等于装过 .NET SDK，命令行里可能没有 `dotnet` 命令。这种情况走方式二。
+
+### 怎么跑
+
+每个章节目录下的示例都是独立工程，可以直接运行：
+
+```bash
+cd 1.命令模式/0.改进前-硬编码输入
+dotnet run
+```
+
+Windows 也可以直接双击目录下的 `运行.cmd`；macOS / Linux 执行 `./运行.sh`。
+这两个脚本会先检查有没有 `dotnet`，没有就给出中文提示并指向 Releases。
+
+### 两点约定
+
+- 所有项目固定 `TargetFramework = net8.0`，装 .NET 8 / 9 / 10 的读者都能构建
+- 仓库**不含** `global.json`，不会锁定 SDK 版本
 
 ## 作者
 
-个人主页：<https://liblog.com.cn/>
+个人主页：[https://liblog.com.cn/](https://liblog.com.cn/)

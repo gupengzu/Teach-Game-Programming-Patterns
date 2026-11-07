@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>FlyweightPattern.Step1</RootNamespace>
+    <AssemblyName>Step1-TreeModel</AssemblyName>
+  </PropertyGroup>
+
+</Project>

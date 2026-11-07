@@ -37,6 +37,10 @@ jobs:
             "1.命令模式/1.命令对象-按键重映射/CommandObject.csproj:chapter1-step1"
             "1.命令模式/2.给角色的指令-延迟执行/CommandActor.csproj:chapter1-step2"
             "1.命令模式/3.撤销和重做/UndoRedo.csproj:chapter1-step3"
+            "2.享元模式/0.改进前-每棵树独立建模/Before.csproj:chapter2-step0"
+            "2.享元模式/1.抽离固有状态-TreeModel/TreeModel.csproj:chapter2-step1"
+            "2.享元模式/2.享元工厂-按需共享/FlyweightFactory.csproj:chapter2-step2"
+            "2.享元模式/3.地形区块-无身份共享/TerrainTiles.csproj:chapter2-step3"
           )
 
           for item in "${projects[@]}"; do
@@ -55,7 +59,7 @@ jobs:
       - name: 上传构建产物
         uses: actions/upload-artifact@v4
         with:
-          name: chapter1-${{ matrix.rid }}
+          name: samples-${{ matrix.rid }}
           path: dist/**
 
   release:
