@@ -41,11 +41,23 @@ jobs:
             "2.享元模式/1.抽离固有状态-TreeModel/TreeModel.csproj:chapter2-step1"
             "2.享元模式/2.享元工厂-按需共享/FlyweightFactory.csproj:chapter2-step2"
             "2.享元模式/3.地形区块-无身份共享/TerrainTiles.csproj:chapter2-step3"
+            "3.观察者模式/0.改进前-物理直接调用成就/Before.csproj:chapter3-step0"
+            "3.观察者模式/1.观察者接口-被观察者列表/ObserverList.csproj:chapter3-step1"
+            "3.观察者模式/2.角色多订阅-事件与委托/EventDelegate.csproj:chapter3-step2"
+            "3.观察者模式/3.失效监听者-注销与生命周期/ListenerLifetime.csproj:chapter3-step3"
+            "4.原型模式/0.改进前-平行生产者类/Before.csproj:chapter4-step0"
+            "4.原型模式/1.原型克隆-通用生产者/PrototypeClone.csproj:chapter4-step1"
+            "4.原型模式/2.深克隆与生产函数/DeepClone.csproj:chapter4-step2"
+            "4.原型模式/3.数据原型-属性委托/DataPrototype.csproj:chapter4-step3"
           )
 
           for item in "${projects[@]}"; do
             proj="${item%%:*}"
             name="${item##*:}"
+            if [ ! -f "$proj" ]; then
+              echo "==> 跳过未发布章节：$proj"
+              continue
+            fi
             echo "==> 发布 $proj"
             dotnet publish "$proj" \
               -c Release \
