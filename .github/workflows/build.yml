@@ -32,32 +32,18 @@ jobs:
         shell: bash
         run: |
           set -e
-          projects=(
-            "1.命令模式/0.改进前-硬编码输入/Before.csproj:chapter1-step0"
-            "1.命令模式/1.命令对象-按键重映射/CommandObject.csproj:chapter1-step1"
-            "1.命令模式/2.给角色的指令-延迟执行/CommandActor.csproj:chapter1-step2"
-            "1.命令模式/3.撤销和重做/UndoRedo.csproj:chapter1-step3"
-            "2.享元模式/0.改进前-每棵树独立建模/Before.csproj:chapter2-step0"
-            "2.享元模式/1.抽离固有状态-TreeModel/TreeModel.csproj:chapter2-step1"
-            "2.享元模式/2.享元工厂-按需共享/FlyweightFactory.csproj:chapter2-step2"
-            "2.享元模式/3.地形区块-无身份共享/TerrainTiles.csproj:chapter2-step3"
-            "3.观察者模式/0.改进前-物理直接调用成就/Before.csproj:chapter3-step0"
-            "3.观察者模式/1.观察者接口-被观察者列表/ObserverList.csproj:chapter3-step1"
-            "3.观察者模式/2.角色多订阅-事件与委托/EventDelegate.csproj:chapter3-step2"
-            "3.观察者模式/3.失效监听者-注销与生命周期/ListenerLifetime.csproj:chapter3-step3"
-            "4.原型模式/0.改进前-平行生产者类/Before.csproj:chapter4-step0"
-            "4.原型模式/1.原型克隆-通用生产者/PrototypeClone.csproj:chapter4-step1"
-            "4.原型模式/2.深克隆与生产函数/DeepClone.csproj:chapter4-step2"
-            "4.原型模式/3.数据原型-属性委托/DataPrototype.csproj:chapter4-step3"
-          )
+          projects=()
+          while IFS= read -r proj; do
+            chapter_dir=$(basename "$(dirname "$(dirname "$proj")")")
+            step_dir=$(basename "$(dirname "$proj")")
+            chapter_num=${chapter_dir%%.*}
+            step_num=${step_dir%%.*}
+            projects+=("${proj}:chapter${chapter_num}-step${step_num}")
+          done < <(find . -mindepth 3 -maxdepth 3 -name '*.csproj' | sort)
 
           for item in "${projects[@]}"; do
             proj="${item%%:*}"
             name="${item##*:}"
-            if [ ! -f "$proj" ]; then
-              echo "==> 跳过未发布章节：$proj"
-              continue
-            fi
             echo "==> 发布 $proj"
             dotnet publish "$proj" \
               -c Release \
